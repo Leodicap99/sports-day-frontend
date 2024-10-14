@@ -7,8 +7,9 @@ import ProtectedRoute from './Auth/ProtectedRoute';
 import { useContext } from 'react';
 import { AuthContext } from './Auth/AuthContext';
 
-function Layout() {
+export function Layout() {
   const {setLogin} = useContext(AuthContext);
+  console.log("AuthContext:", useContext(AuthContext)); 
   const location = useLocation();
   return (
     <div className="bg-gray-100">
