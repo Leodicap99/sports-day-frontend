@@ -6,6 +6,7 @@ import { AuthContext } from "../Auth/AuthContext";
 function LoginForm(){
     const [userId, setUserId] = useState("");
     const [pass, setPass] = useState("");
+    const [successData,setSuccessData] = useState(null);
     const [userIdErrorMessage,setUserIdErrorMessage] = useState('');
     const [passwordErrorMessage,setPasswordErrorMessage] = useState('');
     const [errorMessage, setErrorMessage] = useState('');
@@ -36,13 +37,14 @@ function LoginForm(){
             if(data.error){
                 setErrorMessage(data.error);
             }else{
+                setSuccessData(data.data);
                 setSuccessToast(true);
             }
         });
     }
     const handleClose = () => {
         setSuccessToast(false);
-        setLogin();
+        setLogin(successData);
         navigate('/events')
     }
     return (
@@ -51,7 +53,7 @@ function LoginForm(){
           <div className="flex justify-center ">
             <form
               onSubmit={(e) => e.preventDefault()}
-              className="w-full bg-white px-28 py-10 shadow-md rounded-md"
+              className="w-full bg-white px-14 sm:px-28 py-10 shadow-md rounded-md"
             >
               <h1 className="text-2xl text-center font-semibold mb-4 text-gray-700">
                 Login Form
@@ -118,7 +120,7 @@ function LoginForm(){
           open={successToast}
           autoHideDuration={1500}
           onClose={handleClose}
-          message="Registration Successful"
+          message="Login Successful!"
           sx={{
             "& .MuiSnackbarContent-root": {
               bgcolor: "green", // background color

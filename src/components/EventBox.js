@@ -12,7 +12,7 @@ function EventBox({ event, selectEvent,type,removeEvent }) {
     hour12: true,
   });
   return (
-    <div className="border h-40 w-64 bg-blue-100 border-blue-700 items-center flex justify-center rounded-lg m-10 p-5">
+    <div className="border h-40 sm:w-64 bg-blue-100 border-blue-700 items-center flex justify-center rounded-lg m-10 p-5">
       <div className="text-3xl font-extrabold">{event.event_category[0]}</div>
       <span className="border-r border-black h-full mx-4"></span>
       <div>

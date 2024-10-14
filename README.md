@@ -7,6 +7,7 @@
 3. React router (for routing)
 4. Tailwind CSS (styling)
 5. Material UI (custom styles)
+6. Jest (unit testing)
 
 ## Security and accessibility
 1. Responsiveness across all devices (Mobile, Laptop, and Desktop)
@@ -15,7 +16,8 @@
 
 ## Things to take care of 
 1. form resizes when error messages are shown
-2. Export the check on fields so u can reuse in login page
-3. webvitals
-4. Store all constants and strings in a utils folder
-5. Add search and sort field for all events and selected events
+2. webvitals
+3. Store all constants and strings in a utils folder
+4. Add search and sort field for all events and selected events
+5. Combine your frontend and backend into one folder structure 
+6. accessibility

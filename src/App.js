@@ -16,7 +16,7 @@ function Layout() {
         {location.pathname === "/events" && (
           <button
             onClick={setLogin}
-            className="bg-red-500  text-white p-4 border rounded-md text-xs  border-red-900 hover:bg-red-900"
+            className="bg-red-500  text-white p-2 sm:p-4 border rounded-md text-xs  border-red-900 hover:bg-red-900"
           >
             Logout
           </button>

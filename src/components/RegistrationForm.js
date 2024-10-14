@@ -74,7 +74,7 @@ function RegistrationForm() {
     }
     else if (!/[A-Z]/.test(password)) {
       setPasswordErrorMessage(
-        "Password must contan at least oneuppercase letter (A-Z)"
+        "Password must contan at least one uppercase letter (A-Z)"
       );
     }
     else if(!/[a-z]/.test(password)){
@@ -99,7 +99,7 @@ function RegistrationForm() {
         <div className="flex justify-center ">
           <form
             onSubmit={(e) => e.preventDefault()}
-            className="w-full bg-white px-28 py-10 shadow-md rounded-md"
+            className="w-full bg-white px-14 sm:px-28 py-10 shadow-md rounded-md"
           >
             <h1 className="text-2xl font-semibold mb-4 text-gray-700">
               Registration Form
