@@ -204,10 +204,17 @@ function RegistrationForm() {
         message="Registration Successful"
         sx={{
           "& .MuiSnackbarContent-root": {
-            bgcolor: "green", // background color
-            color: "white", // text color
+            bgcolor: "green",
+            color: "white",
           },
         }}
+        action={
+          <>
+            <span className="text-white cursor-pointer" onClick={handleClose}>
+              X
+            </span>
+          </>
+        }
       />
     </>
   );

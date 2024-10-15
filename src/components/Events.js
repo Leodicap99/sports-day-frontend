@@ -118,8 +118,8 @@ function Events() {
           message={errorToastMessage}
           sx={{
             "& .MuiSnackbarContent-root": {
-              bgcolor: "red", // background color
-              color: "white", // text color
+              bgcolor: "red", 
+              color: "white", 
             },
           }}
           action={

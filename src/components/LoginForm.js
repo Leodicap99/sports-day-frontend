@@ -96,6 +96,8 @@ function LoginForm(){
               </div>
               <button
                 type="submit"
+                id="login-button"
+                data-testid="login-button"
                 onClick={handleLogin}
                 className="w-full mb-4 bg-blue-500 text-white font-semibold py-2 rounded hover:bg-blue-600 transition duration-200"
               >
@@ -127,6 +129,13 @@ function LoginForm(){
               color: "white", // text color
             },
           }}
+          action={
+            <>
+              <span className="text-white cursor-pointer" onClick={handleClose}>
+                X
+              </span>
+            </>
+          }
         />
       </>
     );
