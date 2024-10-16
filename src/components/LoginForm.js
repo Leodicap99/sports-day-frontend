@@ -15,13 +15,16 @@ function LoginForm(){
     const {setLogin} = useContext(AuthContext);
     const handleLogin = () =>{
         setErrorMessage('');
-        if(userIdErrorMessage.length || passwordErrorMessage.length)return;
+        let flag=false;
         if(userId.length===0){
-            setUserIdErrorMessage('userid is mandatory')
+            setUserIdErrorMessage('userid is mandatory');
+            flag=true;
         }
         if(pass.length===0){
             setPasswordErrorMessage('password is a mandatory field');
+            flag=true;
         }
+        if (flag) return;
         let obj = {
             userId: userId,
             password: pass
