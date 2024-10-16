@@ -1,5 +1,5 @@
 import { Snackbar } from "@mui/material";
-import { useState } from "react";
+import { useEffect, useRef, useState } from "react";
 import { useNavigate } from "react-router-dom";
 
 function RegistrationForm() {
@@ -12,11 +12,17 @@ function RegistrationForm() {
   const [firstNameErrorMessage, setFirstNameErrorMessage] = useState("");
   const [lastNameErrorMessage, setLastNameErrorMessage] = useState("");
   const [passwordErrorMessage, setPasswordErrorMessage] = useState("");
-  const [successToast,setSuccessToast] = useState(false);
-  const navigate = useNavigate()
+  const [successToast, setSuccessToast] = useState(false);
+  const firstNameRef = useRef(null);
+  useEffect(() => {
+    if (firstNameRef.current) {
+      firstNameRef.current.focus();
+    }
+  }, []);
+  const navigate = useNavigate();
   const handleSubmit = () => {
     let flag = false;
-    if(userIdErrorMessage || passwordErrorMessage)return;
+    if (userIdErrorMessage || passwordErrorMessage) return;
     if (firstName.length === 0) {
       setFirstNameErrorMessage("first name cannot be blank");
       flag = true;
@@ -51,9 +57,8 @@ function RegistrationForm() {
       .then((data) => {
         if (data.error) {
           setErrorMessage(data.error);
-        }
-        else{
-            setSuccessToast(true);
+        } else {
+          setSuccessToast(true);
         }
       })
       .catch((err) => setErrorMessage(err));
@@ -71,28 +76,26 @@ function RegistrationForm() {
     let password = e.target.value;
     if (password.length < 8) {
       setPasswordErrorMessage("Password must be atleast 8 characters long");
-    }
-    else if (!/[A-Z]/.test(password)) {
+    } else if (!/[A-Z]/.test(password)) {
       setPasswordErrorMessage(
         "Password must contan at least one uppercase letter (A-Z)"
       );
-    }
-    else if(!/[a-z]/.test(password)){
-        setPasswordErrorMessage('Password must contain atleast one lowercase letter (a-z)')
-    }
-    else if(!/\d/.test(password)){
-        setPasswordErrorMessage('Password must contain atleast one digit (0-9');
-    }
-    else if(!/[!@#$%^&*.]/.test(password)){
-        setPasswordErrorMessage(
-          "Password must contain atleast one special character (e.g.,(@$!%*?&)"
-        );
+    } else if (!/[a-z]/.test(password)) {
+      setPasswordErrorMessage(
+        "Password must contain atleast one lowercase letter (a-z)"
+      );
+    } else if (!/\d/.test(password)) {
+      setPasswordErrorMessage("Password must contain atleast one digit (0-9");
+    } else if (!/[!@#$%^&*.]/.test(password)) {
+      setPasswordErrorMessage(
+        "Password must contain atleast one special character (e.g.,(@$!%*?&)"
+      );
     }
   };
   const handleClose = () => {
     setSuccessToast(false);
     navigate("/login");
-  }
+  };
   return (
     <>
       <div className="flex flex-col justify-center items-center  min-h-screen -mt-20">
@@ -107,6 +110,7 @@ function RegistrationForm() {
             <div className="mb-4">
               <input
                 placeholder="Enter your first name"
+                ref={firstNameRef}
                 onChange={(e) => {
                   setFirstNameErrorMessage("");
                   setFirstName(e.target.value);

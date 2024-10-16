@@ -1,4 +1,4 @@
-function EventBox({ event, selectEvent,type,removeEvent }) {
+function EventBox({ event, selectEvent, type, removeEvent, setButtonRef }) {
   let date = new Date(event.start_time.replace(" ", "T"));
   const startDate = date.toLocaleTimeString("en-US", {
     hour: "numeric",
@@ -25,6 +25,7 @@ function EventBox({ event, selectEvent,type,removeEvent }) {
           {type === "All" && (
             <button
               onClick={() => selectEvent(event.id)}
+              ref={setButtonRef}
               className="bg-green-200 p-2 border rounded-md text-xs mt-4 border-green-900 hover:bg-green-500"
             >
               Select

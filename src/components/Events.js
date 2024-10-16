@@ -1,4 +1,4 @@
-import { useState,useEffect } from "react";
+import { useState,useEffect, useRef } from "react";
 import { data } from "../utils/mockData";
 import EventBox from "./EventBox";
 import { Snackbar } from "@mui/material";
@@ -9,13 +9,19 @@ function Events() {
   const [errorToast, setErrorToast] = useState(false);
   const [errorToastMessage, setErrorToastMessage] = useState("");
   const [loading,setLoading] = useState(false);
+  const firstSelectableButtonRef = useRef(null);
   const user = JSON.parse(sessionStorage.getItem("isLoggedIn"));
   const userId = user.userId;
   useEffect(()=>{
     if(user.selectedEvents){
       setSelectedEvents(user.selectedEvents);
     }
-  },[])
+  },[]);
+  useEffect(() => {
+    if (firstSelectableButtonRef.current) {
+      firstSelectableButtonRef.current.focus();
+    }
+  }, [events]); 
   const saveSelectedEvents = async (selectedEventsForPost) => {
     setLoading(true);
     try{
@@ -92,6 +98,9 @@ function Events() {
                 event={event}
                 selectEvent={selectEvent}
                 type="All"
+                setButtonRef={
+                  event.id === events[0].id ? firstSelectableButtonRef : null
+                }
               />
             ))}
           </div>
@@ -118,8 +127,8 @@ function Events() {
           message={errorToastMessage}
           sx={{
             "& .MuiSnackbarContent-root": {
-              bgcolor: "red", 
-              color: "white", 
+              bgcolor: "red",
+              color: "white",
             },
           }}
           action={
@@ -131,9 +140,11 @@ function Events() {
           }
         />
       </div>
-      {loading && <div className="fixed inset-0 flex items-center justify-center bg-black bg-opacity-50 backdrop-blur-sm z-50">
-        <CircularProgress />
-      </div>}
+      {loading && (
+        <div className="fixed inset-0 flex items-center justify-center bg-black bg-opacity-50 backdrop-blur-sm z-50">
+          <CircularProgress />
+        </div>
+      )}
     </>
   );
 }

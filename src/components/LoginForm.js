@@ -1,5 +1,5 @@
 import { Snackbar } from "@mui/material";
-import { useContext, useState } from "react";
+import { useContext, useEffect, useRef, useState } from "react";
 import { useNavigate } from "react-router-dom";
 import { AuthContext } from "../Auth/AuthContext";
 
@@ -11,8 +11,14 @@ function LoginForm(){
     const [passwordErrorMessage,setPasswordErrorMessage] = useState('');
     const [errorMessage, setErrorMessage] = useState('');
     const [successToast,setSuccessToast] = useState(false);
+    const userIdRef = useRef(null);
     const navigate = useNavigate();
     const {setLogin} = useContext(AuthContext);
+    useEffect(()=>{
+      if(userIdRef.current){
+        userIdRef.current.focus();
+      }
+    },[])
     const handleLogin = () =>{
         setErrorMessage('');
         let flag=false;
@@ -69,6 +75,7 @@ function LoginForm(){
                     setUserId(e.target.value);
                   }}
                   value={userId}
+                  ref={userIdRef}
                   className={`w-full p-2 border ${
                     userIdErrorMessage ? "border-red-500" : "border-gray-300"
                   } rounded focus:outline-none focus:ring-2 focus:ring-blue-500`}
