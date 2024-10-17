@@ -24,13 +24,16 @@ export function Layout() {
           darkMode ? "text-white" : "text-gray-800"
         }`}
       >
-        <h1 className="flex-1 text-center text-3xl font-bold">
+        <h1 className="flex-1 text-center text-xl md:text-3xl font-bold">
           Sports Day Event
         </h1>
         <div className="flex items-center gap-4">
           <button
             onClick={toggleMode}
             data-testid="dark-mode-button"
+            aria-label={
+              darkMode ? "Switch to light mode" : "Switch to dark mode"
+            }
             className="flex items-center bg-gray-200 p-2 rounded-md hover:bg-blue-500 dark:hover:bg-yellow-300 hover:cursor-pointer"
           >
             {darkMode ? <LightModeIcon /> : <DarkModeIcon />}

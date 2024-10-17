@@ -113,7 +113,7 @@ function Events() {
     >
       <div className="flex flex-col lg:flex-row h-full">
         <div className="m-4 p-4 lg:w-1/2 shadow-lg rounded-lg border border-gray-300 bg-white dark:bg-gray-800">
-          <h1 className="text-2xl text-center z-10 p-4 font-semibold">
+          <h1 className="text-xl md:text-2xl text-center z-10 p-4 font-semibold">
             All events
           </h1>
           <EventSearch
@@ -137,7 +137,7 @@ function Events() {
         </div>
 
         <div className="m-4 p-4 lg:w-1/2 shadow-lg rounded-lg border border-gray-300 bg-white dark:bg-gray-800">
-          <h1 className="text-2xl text-center z-10 p-4 font-semibold">
+          <h1 className="text-xl md:text-2xl text-center z-10 p-4 font-semibold">
             Selected events
           </h1>
           <div className="flex flex-wrap overflow-y-auto">

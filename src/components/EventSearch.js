@@ -53,6 +53,7 @@ const EventSearch = memo(({ handleFilterEvents, handleSortEvents }) => {
       <button
         onClick={handleClickSort}
         data-testid="sort-button"
+        aria-label="sort button"
         className="ml-4 flex items-center bg-blue-500 text-white py-2 px-4 rounded-md shadow hover:bg-blue-600 transition duration-200 dark:bg-blue-700 dark:hover:bg-blue-800"
       >
         <SortIcon className="mr-2" />
