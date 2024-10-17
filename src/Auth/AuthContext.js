@@ -7,6 +7,7 @@ function AuthProvider({ children }) {
       ? false
       : Boolean(sessionStorage.getItem("isLoggedIn"))
   );
+  const [darkMode, setDarkMode] = useState(false);
   const setLogin = (info) => {
     if (!isLoggedIn) {
       setIsLoggedIn(true);
@@ -16,8 +17,12 @@ function AuthProvider({ children }) {
       sessionStorage.removeItem("isLoggedIn");
     }
   };
+  const toggleMode = () => {
+    setDarkMode((prev) => !prev);
+    document.documentElement.classList.toggle("dark");
+  };
   return (
-    <AuthContext.Provider value={{ isLoggedIn, setLogin }}>
+    <AuthContext.Provider value={{ isLoggedIn, setLogin,darkMode,toggleMode }}>
       {children}
     </AuthContext.Provider>
   );

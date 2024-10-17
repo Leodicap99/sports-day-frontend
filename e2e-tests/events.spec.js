@@ -99,7 +99,7 @@ test("Select events flow", async ({ page }) => {
   await page.waitForTimeout(1500);
   await page
     .locator("div")
-    .filter({ hasText: /^Butterfly 100MSwimming1:30 PM-2:30 PMSelect$/ })
+    .filter({ hasText: /^Butterfly 100MSwimming1:30 PM - 2:30 PMSelect$/ })
     .getByRole("button")
     .click();
 });
@@ -135,7 +135,7 @@ test("Remove event flow", async ({ page }) => {
   await page.waitForTimeout(1500);
   await page
     .locator("div")
-    .filter({ hasText: /^Butterfly 100MSwimming1:30 PM-2:30 PMSelect$/ })
+    .filter({ hasText: /^Butterfly 100MSwimming1:30 PM - 2:30 PMSelect$/ })
     .getByRole("button")
     .click();
   await page.getByRole("button", { name: "Remove" }).click();
@@ -233,16 +233,16 @@ test("Selected events persists after logging out and loggin back in", async ({
   await page.waitForTimeout(1500);
   await page
     .locator("div")
-    .filter({ hasText: /^Butterfly 100MSwimming1:30 PM-2:30 PMSelect$/ })
+    .filter({ hasText: /^Butterfly 100MSwimming1:30 PM - 2:30 PMSelect$/ })
     .getByRole("button")
     .click();
-  await page.getByText("SButterfly 100MSwimming1:30 PM-2:30 PMRemove").click();
+  await page.getByText("SButterfly 100MSwimming1:30 PM - 2:30 PMRemove").click();
   await page.getByRole("button", { name: "Logout" }).click();
   await page.getByPlaceholder("Enter your userid").fill(randomUserId);
   await page.getByPlaceholder("Enter your password").fill(randomPassword);
   await page.getByTestId("login-button").click();
   await page.waitForTimeout(1500);
-  await page.getByText("SButterfly 100MSwimming1:30 PM-2:30 PMRemove").click();
+  await page.getByText("SButterfly 100MSwimming1:30 PM - 2:30 PMRemove").click();
 });
 test("Selected events persists after a reload", async ({ page }) => {
   await page.goto("http://localhost:3000/");
@@ -276,12 +276,12 @@ test("Selected events persists after a reload", async ({ page }) => {
   await page.waitForTimeout(1500);
   await page
     .locator("div")
-    .filter({ hasText: /^Butterfly 100MSwimming1:30 PM-2:30 PMSelect$/ })
+    .filter({ hasText: /^Butterfly 100MSwimming1:30 PM - 2:30 PMSelect$/ })
     .getByRole("button")
     .click();
-  await page.getByText("SButterfly 100MSwimming1:30 PM-2:30 PMRemove").click();
+  await page.getByText("SButterfly 100MSwimming1:30 PM - 2:30 PMRemove").click();
   await page.goto("http://localhost:3000/events");
-  await page.getByText("SButterfly 100MSwimming1:30 PM-2:30 PMRemove").click();
+  await page.getByText("SButterfly 100MSwimming1:30 PM - 2:30 PMRemove").click();
 });
 test("Check if conflicting events doesnt get added", async ({ page }) => {
   await page.goto("http://localhost:3000/");
@@ -315,12 +315,12 @@ test("Check if conflicting events doesnt get added", async ({ page }) => {
   await page.waitForTimeout(1500);
   await page
     .locator("div")
-    .filter({ hasText: /^Butterfly 100MSwimming1:30 PM-2:30 PMSelect$/ })
+    .filter({ hasText: /^Butterfly 100MSwimming1:30 PM - 2:30 PMSelect$/ })
     .getByRole("button")
     .click();
   await page
     .locator("div")
-    .filter({ hasText: /^Backstroke 100MSwimming1:00 PM-2:00 PMSelect$/ })
+    .filter({ hasText: /^Backstroke 100MSwimming1:00 PM - 2:00 PMSelect$/ })
     .getByRole("button")
     .click();
   await page.getByText("This event conflicts with").click();
@@ -357,25 +357,124 @@ test("Check if more than 3 events doesnt get added", async ({ page }) => {
   await page.waitForTimeout(1500);
   await page
     .locator("div")
-    .filter({ hasText: /^Butterfly 100MSwimming1:30 PM-2:30 PMSelect$/ })
+    .filter({ hasText: /^Butterfly 100MSwimming1:30 PM - 2:30 PMSelect$/ })
     .getByRole("button")
     .click();
   await page
     .locator("div")
-    .filter({ hasText: /^Freestyle 400MSwimming3:00 PM-4:00 PMSelect$/ })
+    .filter({ hasText: /^Freestyle 400MSwimming3:00 PM - 4:00 PMSelect$/ })
     .getByRole("button")
     .click();
   await page
     .locator("div")
-    .filter({ hasText: /^Triple JumpAthletics4:00 PM-5:00 PMSelect$/ })
+    .filter({ hasText: /^Triple JumpAthletics4:00 PM - 5:00 PMSelect$/ })
     .getByRole("button")
     .click();
   await page
     .locator("div")
-    .filter({ hasText: /^Long JumpAthletics5:00 PM-6:00 PMSelect$/ })
+    .filter({ hasText: /^Long JumpAthletics5:00 PM - 6:00 PMSelect$/ })
     .getByRole("button")
     .click();
   await page.getByText("You can only select up to 3").click();
+});
+test("Sort Check", async ({ page }) => {
+  await page.goto("http://localhost:3000/");
+  const randomFirstName = generateRandomString(6);
+  const randomLastName = generateRandomString(6);
+  const randomUserId = `${randomFirstName.toLowerCase()}${Math.floor(
+    Math.random() * 1000
+  )}@example.com`;
+  const randomPassword = `Password@${Math.floor(Math.random() * 1000)}`;
+  await page.getByRole("heading", { name: "Sports Day Event" }).click();
+  await page.getByRole("heading", { name: "Registration Form" }).click();
+  await page.getByPlaceholder("Enter your first name").click();
+  await page.getByPlaceholder("Enter your first name").press("CapsLock");
+  await page.getByPlaceholder("Enter your first name").fill(randomFirstName);
+  await page.getByPlaceholder("Enter your first name").press("Tab");
+  await page.getByPlaceholder("Enter your last name").press("CapsLock");
+  await page.getByPlaceholder("Enter your last name").fill(randomLastName);
+  await page.getByPlaceholder("Enter your userid").click();
+  await page.getByPlaceholder("Enter your userid").fill(randomUserId);
+  await page.getByPlaceholder("Enter your password").click();
+  await page.getByPlaceholder("Enter your password").press("CapsLock");
+  await page.getByPlaceholder("Enter your password").fill(randomPassword);
+  await page.getByRole("button", { name: "Register" }).click();
+  await page.waitForTimeout(1500);
+  await page.getByPlaceholder("Enter your userid").click();
+  await page.getByPlaceholder("Enter your userid").fill(randomUserId);
+  await page.getByPlaceholder("Enter your password").click();
+  await page.getByPlaceholder("Enter your password").press("CapsLock");
+  await page.getByPlaceholder("Enter your password").fill(randomPassword);
+  await page.getByTestId("login-button").click();
+  await page.waitForTimeout(1500);
+  await page.getByTestId("sort-button").click();
+  await page.getByText("SBackstroke 100MSwimming1:00").click();
+});
+test("Search Check Positive flow", async ({ page }) => {
+  await page.goto("http://localhost:3000/");
+  const randomFirstName = generateRandomString(6);
+  const randomLastName = generateRandomString(6);
+  const randomUserId = `${randomFirstName.toLowerCase()}${Math.floor(
+    Math.random() * 1000
+  )}@example.com`;
+  const randomPassword = `Password@${Math.floor(Math.random() * 1000)}`;
+  await page.getByRole("heading", { name: "Sports Day Event" }).click();
+  await page.getByRole("heading", { name: "Registration Form" }).click();
+  await page.getByPlaceholder("Enter your first name").click();
+  await page.getByPlaceholder("Enter your first name").press("CapsLock");
+  await page.getByPlaceholder("Enter your first name").fill(randomFirstName);
+  await page.getByPlaceholder("Enter your first name").press("Tab");
+  await page.getByPlaceholder("Enter your last name").press("CapsLock");
+  await page.getByPlaceholder("Enter your last name").fill(randomLastName);
+  await page.getByPlaceholder("Enter your userid").click();
+  await page.getByPlaceholder("Enter your userid").fill(randomUserId);
+  await page.getByPlaceholder("Enter your password").click();
+  await page.getByPlaceholder("Enter your password").press("CapsLock");
+  await page.getByPlaceholder("Enter your password").fill(randomPassword);
+  await page.getByRole("button", { name: "Register" }).click();
+  await page.waitForTimeout(1500);
+  await page.getByPlaceholder("Enter your userid").click();
+  await page.getByPlaceholder("Enter your userid").fill(randomUserId);
+  await page.getByPlaceholder("Enter your password").click();
+  await page.getByPlaceholder("Enter your password").press("CapsLock");
+  await page.getByPlaceholder("Enter your password").fill(randomPassword);
+  await page.getByTestId("login-button").click();
+  await page.waitForTimeout(1500);
+  await page.getByPlaceholder("Search event name or category").fill("butte");
+  await page.getByText("SButterfly 100MSwimming1:30").click();
+});
+test("Search Check Negative flow", async ({ page }) => {
+  await page.goto("http://localhost:3000/");
+  const randomFirstName = generateRandomString(6);
+  const randomLastName = generateRandomString(6);
+  const randomUserId = `${randomFirstName.toLowerCase()}${Math.floor(
+    Math.random() * 1000
+  )}@example.com`;
+  const randomPassword = `Password@${Math.floor(Math.random() * 1000)}`;
+  await page.getByRole("heading", { name: "Sports Day Event" }).click();
+  await page.getByRole("heading", { name: "Registration Form" }).click();
+  await page.getByPlaceholder("Enter your first name").click();
+  await page.getByPlaceholder("Enter your first name").press("CapsLock");
+  await page.getByPlaceholder("Enter your first name").fill(randomFirstName);
+  await page.getByPlaceholder("Enter your first name").press("Tab");
+  await page.getByPlaceholder("Enter your last name").press("CapsLock");
+  await page.getByPlaceholder("Enter your last name").fill(randomLastName);
+  await page.getByPlaceholder("Enter your userid").click();
+  await page.getByPlaceholder("Enter your userid").fill(randomUserId);
+  await page.getByPlaceholder("Enter your password").click();
+  await page.getByPlaceholder("Enter your password").press("CapsLock");
+  await page.getByPlaceholder("Enter your password").fill(randomPassword);
+  await page.getByRole("button", { name: "Register" }).click();
+  await page.waitForTimeout(1500);
+  await page.getByPlaceholder("Enter your userid").click();
+  await page.getByPlaceholder("Enter your userid").fill(randomUserId);
+  await page.getByPlaceholder("Enter your password").click();
+  await page.getByPlaceholder("Enter your password").press("CapsLock");
+  await page.getByPlaceholder("Enter your password").fill(randomPassword);
+  await page.getByTestId("login-button").click();
+  await page.waitForTimeout(1500);
+  await page.getByPlaceholder("Search event name or category").fill("wef");
+  await page.getByText("No results found.").click();
 });
 test("Overall test only using keyboard (Accessibility)", async ({ page }) => {
   await page.goto("http://localhost:3000/");
@@ -407,32 +506,32 @@ test("Overall test only using keyboard (Accessibility)", async ({ page }) => {
   await page.waitForTimeout(2500);
   await page
     .locator("div")
-    .filter({ hasText: /^Butterfly 100MSwimming1:30 PM-2:30 PMSelect$/ })
+    .filter({ hasText: /^Butterfly 100MSwimming1:30 PM - 2:30 PMSelect$/ })
     .getByRole("button")
     .press("Tab");
   await page
     .locator("div")
-    .filter({ hasText: /^Backstroke 100MSwimming1:00 PM-2:00 PMSelect$/ })
+    .filter({ hasText: /^Backstroke 100MSwimming1:00 PM - 2:00 PMSelect$/ })
     .getByRole("button")
     .press("Enter");
     await page
       .locator("div")
-      .filter({ hasText: /^Backstroke 100MSwimming1:00 PM-2:00 PMSelect$/ })
+      .filter({ hasText: /^Backstroke 100MSwimming1:00 PM - 2:00 PMSelect$/ })
       .getByRole("button")
       .press("Tab");
     await page
       .locator("div")
-      .filter({ hasText: /^Freestyle 400MSwimming3:00 PM-4:00 PMSelect$/ })
+      .filter({ hasText: /^Freestyle 400MSwimming3:00 PM - 4:00 PMSelect$/ })
       .getByRole("button")
       .press("Tab");
     await page
       .locator("div")
-      .filter({ hasText: /^High JumpAthletics1:00 PM-2:00 PMSelect$/ })
+      .filter({ hasText: /^High JumpAthletics1:00 PM - 2:00 PMSelect$/ })
       .getByRole("button")
       .press("Tab");
     await page
       .locator("div")
-      .filter({ hasText: /^Triple JumpAthletics4:00 PM-5:00 PMSelect$/ })
+      .filter({ hasText: /^Triple JumpAthletics4:00 PM - 5:00 PMSelect$/ })
       .getByRole("button")
       .press("Enter");
 });
@@ -468,28 +567,28 @@ test("OverAll flow", async ({ page }) => {
   await page.waitForTimeout(1500);
   await page
     .locator("div")
-    .filter({ hasText: /^Butterfly 100MSwimming1:30 PM-2:30 PMSelect$/ })
+    .filter({ hasText: /^Butterfly 100MSwimming1:30 PM - 2:30 PMSelect$/ })
     .getByRole("button")
     .click();
   await page
     .locator("div")
-    .filter({ hasText: /^Backstroke 100MSwimming1:00 PM-2:00 PMSelect$/ })
+    .filter({ hasText: /^Backstroke 100MSwimming1:00 PM - 2:00 PMSelect$/ })
     .getByRole("button")
     .click();
   await page.getByText("This event conflicts with").click();
   await page
     .locator("div")
-    .filter({ hasText: /^Freestyle 400MSwimming3:00 PM-4:00 PMSelect$/ })
+    .filter({ hasText: /^Freestyle 400MSwimming3:00 PM - 4:00 PMSelect$/ })
     .getByRole("button")
     .click();
   await page
     .locator("div")
-    .filter({ hasText: /^Triple JumpAthletics4:00 PM-5:00 PMSelect$/ })
+    .filter({ hasText: /^Triple JumpAthletics4:00 PM - 5:00 PMSelect$/ })
     .getByRole("button")
     .click();
   await page
     .locator("div")
-    .filter({ hasText: /^Long JumpAthletics5:00 PM-6:00 PMSelect$/ })
+    .filter({ hasText: /^Long JumpAthletics5:00 PM - 6:00 PMSelect$/ })
     .getByRole("button")
     .click();
   await page.getByText("You can only select up to 3").click();

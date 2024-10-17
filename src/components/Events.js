@@ -1,30 +1,31 @@
-import { useState,useEffect, useRef } from "react";
+import { useState, useEffect, useRef } from "react";
 import { data } from "../utils/mockData";
 import EventBox from "./EventBox";
 import { Snackbar } from "@mui/material";
 import CircularProgress from "@mui/material/CircularProgress";
+import EventSearch from "./EventSearch";
 function Events() {
   const [events, setEvents] = useState(data);
   const [selectedEvents, setSelectedEvents] = useState([]);
   const [errorToast, setErrorToast] = useState(false);
   const [errorToastMessage, setErrorToastMessage] = useState("");
-  const [loading,setLoading] = useState(false);
-  const firstSelectableButtonRef = useRef(null);
+  const [loading, setLoading] = useState(false);
+  const searchRef = useRef(null);
   const user = JSON.parse(sessionStorage.getItem("isLoggedIn"));
   const userId = user.userId;
-  useEffect(()=>{
-    if(user.selectedEvents){
+  useEffect(() => {
+    if (user.selectedEvents) {
       setSelectedEvents(user.selectedEvents);
     }
-  },[]);
+  }, []);
   useEffect(() => {
-    if (firstSelectableButtonRef.current) {
-      firstSelectableButtonRef.current.focus();
+    if (searchRef.current) {
+      searchRef.current.focus();
     }
-  }, [events]); 
+  }, [events]);
   const saveSelectedEvents = async (selectedEventsForPost) => {
     setLoading(true);
-    try{
+    try {
       const obj = {
         userId: userId,
         selectedEvents: selectedEventsForPost,
@@ -39,19 +40,19 @@ function Events() {
           body: JSON.stringify(obj),
         }
       );
-      if(!response.ok){
+      if (!response.ok) {
         const errorData = await response.json();
-        console.error('Error saving selected events: ', errorData.error);
-      }else{
-        const data=await response.json();
-          sessionStorage.setItem('isLoggedIn',JSON.stringify(data.data));
+        console.error("Error saving selected events: ", errorData.error);
+      } else {
+        const data = await response.json();
+        sessionStorage.setItem("isLoggedIn", JSON.stringify(data.data));
       }
       setLoading(false);
-    }catch(error){
-      console.error('Fetch error: ',error);
+    } catch (error) {
+      console.error("Fetch error: ", error);
       setLoading(false);
     }
-  }
+  };
   const selectEvent = (id) => {
     if (selectedEvents.length === 3) {
       setErrorToast(true);
@@ -85,29 +86,57 @@ function Events() {
   const handleClose = () => {
     setErrorToast(false);
   };
+  const handleSortEvents = (flag) => {
+    let filteredArray=[...data];
+    if(flag==='asc'){
+      filteredArray.sort(
+        (a, b) => new Date(a.start_time) - new Date(b.start_time)
+      );
+    }else if(flag==='desc'){
+      filteredArray.sort(
+        (a, b) => new Date(b.start_time) - new Date(a.start_time)
+      );
+    }
+    setEvents([...filteredArray]);
+  }
+  const handleFilterEvents = (searchTerm) => {
+    const filteredEvents = data.filter((event) =>
+      event.event_name.toLowerCase().includes(searchTerm.toLowerCase())
+    );
+    setEvents(filteredEvents);  
+  };
   return (
-    <>
+    <div
+      className={
+        "dark:bg-gray-900 dark:text-white bg-gray-100 text-gray-800 min-h-screen"
+      }
+    >
       <div className="flex flex-col lg:flex-row h-full">
-        <div className="m-4 p-4 lg:w-1/2 shadow-lg rounded-lg border border-gray-300 bg-white">
+        <div className="m-4 p-4 lg:w-1/2 shadow-lg rounded-lg border border-gray-300 bg-white dark:bg-gray-800">
           <h1 className="text-2xl text-center z-10 p-4 font-semibold">
             All events
           </h1>
-          <div className="flex flex-wrap overflow-y-auto">
-            {events.map((event) => (
-              <EventBox
-                key={event.id}
-                event={event}
-                selectEvent={selectEvent}
-                type="All"
-                setButtonRef={
-                  event.id === events[0].id ? firstSelectableButtonRef : null
-                }
-              />
-            ))}
-          </div>
+          <EventSearch
+            handleFilterEvents={handleFilterEvents}
+            handleSortEvents={handleSortEvents}
+          />
+          {events.length === 0 ? (
+            <div className="text-center p-4">No results found.</div>
+          ) : (
+            <div className="flex flex-wrap overflow-y-auto">
+              {events.map((event) => (
+                <EventBox
+                  key={event.id}
+                  event={event}
+                  selectEvent={selectEvent}
+                  type="All"
+                />
+              ))}
+            </div>
+          )}
         </div>
 
-        <div className="m-4 p-4 lg:w-1/2 shadow-lg rounded-lg border border-gray-300 bg-white">
+        <div className="m-4 p-4 lg:w-1/2 shadow-lg rounded-lg border border-gray-300 bg-white dark:bg-gray-800">
           <h1 className="text-2xl text-center z-10 p-4 font-semibold">
             Selected events
           </h1>
@@ -149,7 +178,7 @@ function Events() {
           <CircularProgress />
         </div>
       )}
-    </>
+    </div>
   );
 }
 

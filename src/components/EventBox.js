@@ -1,4 +1,4 @@
-function EventBox({ event, selectEvent, type, removeEvent, setButtonRef }) {
+function EventBox({ event, selectEvent, type, removeEvent }) {
   let date = new Date(event.start_time.replace(" ", "T"));
   const startDate = date.toLocaleTimeString("en-US", {
     hour: "numeric",
@@ -12,21 +12,20 @@ function EventBox({ event, selectEvent, type, removeEvent, setButtonRef }) {
     hour12: true,
   });
   return (
-    <div className="border h-40 sm:w-64 bg-blue-100 border-blue-700 items-center flex justify-center rounded-lg m-10 p-5">
+    <div className="border h-40 sm:w-64 dark:bg-blue-600 bg-blue-100 dark:border-gray-700 border-blue-700 items-center flex justify-center rounded-lg m-10 p-5">
       <div className="text-3xl font-extrabold">{event.event_category[0]}</div>
       <span className="border-r border-black h-full mx-4"></span>
       <div>
-        <div>{event.event_name}</div>
+        <div data-testid="event-name">{event.event_name}</div>
         <div>{event.event_category}</div>
         <div>
-          {startDate}-{endDate}
+          {startDate} - {endDate}
         </div>
         <div className="flex justify-end">
           {type === "All" && (
             <button
               onClick={() => selectEvent(event.id)}
-              ref={setButtonRef}
-              className="bg-green-200 p-2 border rounded-md text-xs mt-4 border-green-900 hover:bg-green-500"
+              className="bg-green-200 dark:bg-green-400 p-2 border rounded-md text-xs mt-4 border-green-900 hover:bg-green-500"
             >
               Select
             </button>
@@ -34,7 +33,7 @@ function EventBox({ event, selectEvent, type, removeEvent, setButtonRef }) {
           {type === "Selected" && (
             <button
               onClick={() => removeEvent(event.id)}
-              className="bg-red-200 p-2 border rounded-md text-xs mt-4 border-red-900 hover:bg-red-500"
+              className="bg-red-200 dark:bg-red-400 p-2 border rounded-md text-xs mt-4 border-red-900 hover:bg-red-500"
             >
               Remove
             </button>

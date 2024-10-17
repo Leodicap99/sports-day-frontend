@@ -1,8 +1,9 @@
 // AuthProvider.test.js
 
 import React, { act, useContext } from "react";
-import { render, screen, renderHook } from "@testing-library/react";
+import { render, screen, renderHook, fireEvent } from "@testing-library/react";
 import AuthProvider, { AuthContext } from "../../Auth/AuthContext";
+import App, { Layout } from "../../App";
 
 beforeAll(() => {
   Object.defineProperty(window, "sessionStorage", {
@@ -53,5 +54,33 @@ describe("AuthProvider", () => {
     expect(result.current.isLoggedIn).toBe(false);
     expect(sessionStorage.removeItem).toHaveBeenCalledWith('isLoggedIn');
   });
-  
+  test("check toggle dark mode function", () => {
+  let mockDarkMode = false;
+  const mockSetLogin = jest.fn();
+  const mockToggleMode = jest.fn(() => {
+    mockDarkMode = !mockDarkMode;
+    document.documentElement.classList.toggle("dark");
+  });
+
+  render(
+    <AuthContext.Provider
+      value={{
+        setLogin: mockSetLogin,
+        darkMode: mockDarkMode,
+        toggleMode: mockToggleMode,
+      }}
+    >
+      <App />
+    </AuthContext.Provider>
+  );
+
+  const darkModeButton = screen.getByTestId("dark-mode-button");
+  expect(document.documentElement.classList.contains("dark")).toBe(false);
+  fireEvent.click(darkModeButton);
+  expect(mockToggleMode).toHaveBeenCalledTimes(1);
+  expect(document.documentElement.classList.contains("dark")).toBe(true);
+  fireEvent.click(darkModeButton);
+  expect(mockToggleMode).toHaveBeenCalledTimes(2);
+  expect(document.documentElement.classList.contains("dark")).toBe(false);
+});
 });

@@ -75,5 +75,63 @@ describe("Events Component", () => {
             expect(screen.queryByText('Remove')).toBeNull();
         });
     });
+    test('filters events based on search term', async() => {
+        render(<Events />);
+        data.forEach(event=>{
+            expect(screen.getByText(event.event_name)).toBeInTheDocument();
+        });
+        const searchInput = screen.getByPlaceholderText("Search event name or category");
+        fireEvent.change(searchInput,{target:{value:'Butterfly'}});
+        expect(screen.getByText('Butterfly 100M')).toBeInTheDocument();
+        expect(screen.queryByText('Backstroke 100M')).toBeNull();
+    });
+    test('shows "No results found" when no event match occurs', async()=>{
+        render(<Events />);
+        const searchInput = screen.getByPlaceholderText('Search event name or category');
+        fireEvent.change(searchInput,{target:{value:'wefwffew'}});
+        expect(screen.getByText("No results found.")).toBeInTheDocument();
+    });
+    test('sorts events in ascending order by start time on single click', async() => {
+        render(<Events />);
+        const sortButton=screen.getByTestId('sort-button');
+        fireEvent.click(sortButton);
+        const sortedEvents = [...data].sort((a,b)=> new Date(a.start_time)-new Date(b.start_time));
+        await waitFor(()=>{
+            const eventNamesOnScreen = screen.getAllByTestId('event-name').map(el=>el.textContent);
+            const sortedEventNames = sortedEvents.map(event=>event.event_name);
+            expect(eventNamesOnScreen).toEqual(sortedEventNames);
+        })
+    });
+    test("sorts events in descending order by start time on double clicks", async () => {
+      render(<Events />);
+      const sortButton = screen.getByTestId("sort-button");
+      fireEvent.click(sortButton);
+      fireEvent.click(sortButton);
+      const sortedEvents = [...data].sort(
+        (a, b) => new Date(b.start_time) - new Date(a.start_time)
+      );
+      await waitFor(() => {
+        const eventNamesOnScreen = screen
+          .getAllByTestId("event-name")
+          .map((el) => el.textContent);
+        const sortedEventNames = sortedEvents.map((event) => event.event_name);
+        expect(eventNamesOnScreen).toEqual(sortedEventNames);
+      });
+    });
+    test("sorts events in default order by start time on triple clicks", async () => {
+      render(<Events />);
+      const sortButton = screen.getByTestId("sort-button");
+      fireEvent.click(sortButton);
+      fireEvent.click(sortButton);
+      fireEvent.click(sortButton);
+      const sortedEvents = [...data];
+      await waitFor(() => {
+        const eventNamesOnScreen = screen
+          .getAllByTestId("event-name")
+          .map((el) => el.textContent);
+        const sortedEventNames = sortedEvents.map((event) => event.event_name);
+        expect(eventNamesOnScreen).toEqual(sortedEventNames);
+      });
+    });
 
 })

@@ -13,7 +13,7 @@ describe('EventBox Component', () => {
         render(<EventBox event={event} selectEvent={jest.fn()} type="All" removeEvent={jest.fn()}/>);
         expect(screen.getByText('Test Event')).toBeInTheDocument();
         expect(screen.getByText('Category 1')).toBeInTheDocument();
-        expect(screen.getByText(/10:00 AM-11:00/i)).toBeInTheDocument();
+        expect(screen.getByText("10:00 AM - 11:00 AM")).toBeInTheDocument();
     });
     test('displays Select button when type is All', () => {
         render(
