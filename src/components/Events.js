@@ -4,6 +4,7 @@ import EventBox from "./EventBox";
 import { Snackbar } from "@mui/material";
 import CircularProgress from "@mui/material/CircularProgress";
 import EventSearch from "./EventSearch";
+import { ERROR_MESSAGE_MORE_THAN_3_EVENTS, IS_LOGGED_IN, SELECTED_EVENTS_ERROR_MESSAGE, SELECTED_EVENTS_POST } from "../utils/constants";
 function Events() {
   const [events, setEvents] = useState(data);
   const [selectedEvents, setSelectedEvents] = useState([]);
@@ -11,7 +12,7 @@ function Events() {
   const [errorToastMessage, setErrorToastMessage] = useState("");
   const [loading, setLoading] = useState(false);
   const searchRef = useRef(null);
-  const user = JSON.parse(sessionStorage.getItem("isLoggedIn"));
+  const user = JSON.parse(sessionStorage.getItem(IS_LOGGED_IN));
   const userId = user.userId;
   useEffect(() => {
     if (user.selectedEvents) {
@@ -30,33 +31,30 @@ function Events() {
         userId: userId,
         selectedEvents: selectedEventsForPost,
       };
-      const response = await fetch(
-        "http://localhost:5000/api/save-selected-events",
-        {
-          method: "POST",
-          headers: {
-            "Content-Type": "application/json",
-          },
-          body: JSON.stringify(obj),
-        }
-      );
+      const response = await fetch(SELECTED_EVENTS_POST, {
+        method: "POST",
+        headers: {
+          "Content-Type": "application/json",
+        },
+        body: JSON.stringify(obj),
+      });
       if (!response.ok) {
         const errorData = await response.json();
-        console.error("Error saving selected events: ", errorData.error);
+        console.error(SELECTED_EVENTS_ERROR_MESSAGE, errorData.error);
       } else {
         const data = await response.json();
-        sessionStorage.setItem("isLoggedIn", JSON.stringify(data.data));
+        sessionStorage.setItem(IS_LOGGED_IN, JSON.stringify(data.data));
       }
       setLoading(false);
     } catch (error) {
-      console.error("Fetch error: ", error);
+      console.error(SELECTED_EVENTS_ERROR_MESSAGE, error);
       setLoading(false);
     }
   };
   const selectEvent = (id) => {
     if (selectedEvents.length === 3) {
       setErrorToast(true);
-      setErrorToastMessage("You can only select up to 3 events.");
+      setErrorToastMessage(ERROR_MESSAGE_MORE_THAN_3_EVENTS);
       return;
     }
     let event = events.filter((e) => e.id === id);

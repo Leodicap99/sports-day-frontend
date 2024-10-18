@@ -178,8 +178,8 @@ test("Registration negative flow", async ({ page }) => {
   await page.getByRole("button", { name: "Register" }).click();
   await page.getByText("first name cannot be blank").click();
   await page.getByText("last name cannot be blank").click();
-  await page.getByText("userId field cannot be blank").click();
-  await page.getByText("password field cannot be blank").click();
+  await page.getByText("userid is mandatory").click();
+  await page.getByText("password is a mandatory field").click();
 });
 test("Login negative flow", async ({ page }) => {
   await page.goto("http://localhost:3000/login");

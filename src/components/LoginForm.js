@@ -2,6 +2,7 @@ import { Snackbar } from "@mui/material";
 import { useContext, useEffect, useRef, useState } from "react";
 import { useNavigate } from "react-router-dom";
 import { AuthContext } from "../Auth/AuthContext";
+import { LOGIN_POST, PASSWORD_MANDATORY, SUCCESSFUL_LOGIN, USER_ID_MANDATORY } from "../utils/constants";
 
 function LoginForm(){
     const [userId, setUserId] = useState("");
@@ -23,11 +24,11 @@ function LoginForm(){
         setErrorMessage('');
         let flag=false;
         if(userId.length===0){
-            setUserIdErrorMessage('userid is mandatory');
+            setUserIdErrorMessage(USER_ID_MANDATORY);
             flag=true;
         }
         if(pass.length===0){
-            setPasswordErrorMessage('password is a mandatory field');
+            setPasswordErrorMessage(PASSWORD_MANDATORY);
             flag=true;
         }
         if (flag) return;
@@ -35,7 +36,7 @@ function LoginForm(){
             userId: userId,
             password: pass
         }
-        fetch("http://localhost:5000/api/login",{
+        fetch(LOGIN_POST,{
             method:'POST',
             headers: {
                 "Content-type": "application/json"
@@ -132,7 +133,7 @@ function LoginForm(){
           open={successToast}
           autoHideDuration={1500}
           onClose={handleClose}
-          message="Login Successful!"
+          message={SUCCESSFUL_LOGIN}
           sx={{
             "& .MuiSnackbarContent-root": {
               bgcolor: "green", // background color

@@ -34,11 +34,9 @@ describe("Registration Form", () => {
     expect(screen.getByText(/first name cannot be blank/i)).toBeInTheDocument();
     expect(screen.getByText(/last name cannot be blank/i)).toBeInTheDocument();
     expect(
-      screen.getByText(/password field cannot be blank/i)
+      screen.getByText(/password is a mandatory field/i)
     ).toBeInTheDocument();
-    expect(
-      screen.getByText(/userid field cannot be blank/i)
-    ).toBeInTheDocument();
+    expect(screen.getByText(/userid is mandatory/i)).toBeInTheDocument();
   });
   test("submits the form successfully", async () => {
     fetch.mockResolvedValueOnce({

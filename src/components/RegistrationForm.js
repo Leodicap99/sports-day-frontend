@@ -1,6 +1,7 @@
 import { Snackbar } from "@mui/material";
 import { useEffect, useRef, useState } from "react";
 import { useNavigate } from "react-router-dom";
+import { FIRST_NAME_MANDATORY, LAST_NAME_MANDATORY, PASSWORD_LENGTH_ERROR_MESSAGE, PASSWORD_LOWER_LETTER_ERROR_MESSAGE, PASSWORD_MANDATORY, PASSWORD_NUMBER_ERROR_MESSAGE, PASSWORD_SPECIAL_CHARACTER_ERROR_MESSAGE, PASSWORD_UPPER_LETTER_ERROR_MESSAGE, REGISTRATION_POST, SUCCESSFUL_REGISTRATION, USER_ID_LENGTH_ERROR_MESSAGE, USER_ID_LENGTH_ERROR_MESSAGES, USER_ID_MANDATORY } from "../utils/constants";
 
 function RegistrationForm() {
   const [firstName, setFirstName] = useState("");
@@ -24,19 +25,19 @@ function RegistrationForm() {
     let flag = false;
     if (userIdErrorMessage || passwordErrorMessage) return;
     if (firstName.length === 0) {
-      setFirstNameErrorMessage("first name cannot be blank");
+      setFirstNameErrorMessage(FIRST_NAME_MANDATORY);
       flag = true;
     }
     if (lastName.length === 0) {
-      setLastNameErrorMessage("last name cannot be blank");
+      setLastNameErrorMessage(LAST_NAME_MANDATORY);
       flag = true;
     }
     if (pass.length === 0) {
-      setPasswordErrorMessage("password field cannot be blank");
+      setPasswordErrorMessage(PASSWORD_MANDATORY);
       flag = true;
     }
     if (userId.length === 0) {
-      setUserIdErrorMessage("userId field cannot be blank");
+      setUserIdErrorMessage(USER_ID_MANDATORY);
     }
     if (flag) {
       return;
@@ -46,7 +47,7 @@ function RegistrationForm() {
       userId: userId,
       password: pass,
     };
-    fetch("http://localhost:5000/api/users", {
+    fetch(REGISTRATION_POST, {
       method: "POST",
       headers: {
         "Content-Type": "application/json",
@@ -65,7 +66,7 @@ function RegistrationForm() {
   };
   const handleBlurUserId = (e) => {
     if (e.target.value.length < 7) {
-      setUserIdErrorMessage("UserId length must be greater than 7 letters");
+      setUserIdErrorMessage(USER_ID_LENGTH_ERROR_MESSAGE);
     }
   };
   const handleChangePassword = (e) => {
@@ -75,20 +76,20 @@ function RegistrationForm() {
   const handleBlurPassword = (e) => {
     let password = e.target.value;
     if (password.length < 8) {
-      setPasswordErrorMessage("Password must be atleast 8 characters long");
+      setPasswordErrorMessage(PASSWORD_LENGTH_ERROR_MESSAGE);
     } else if (!/[A-Z]/.test(password)) {
       setPasswordErrorMessage(
-        "Password must contan at least one uppercase letter (A-Z)"
+        PASSWORD_UPPER_LETTER_ERROR_MESSAGE
       );
     } else if (!/[a-z]/.test(password)) {
       setPasswordErrorMessage(
-        "Password must contain atleast one lowercase letter (a-z)"
+        PASSWORD_LOWER_LETTER_ERROR_MESSAGE
       );
     } else if (!/\d/.test(password)) {
-      setPasswordErrorMessage("Password must contain atleast one digit (0-9");
+      setPasswordErrorMessage(PASSWORD_NUMBER_ERROR_MESSAGE);
     } else if (!/[!@#$%^&*.]/.test(password)) {
       setPasswordErrorMessage(
-        "Password must contain atleast one special character (e.g.,(@$!%*?&)"
+        PASSWORD_SPECIAL_CHARACTER_ERROR_MESSAGE
       );
     }
   };
@@ -206,7 +207,7 @@ function RegistrationForm() {
         open={successToast}
         autoHideDuration={1500}
         onClose={handleClose}
-        message="Registration Successful"
+        message={SUCCESSFUL_REGISTRATION}
         sx={{
           "& .MuiSnackbarContent-root": {
             bgcolor: "green",
