@@ -148,6 +148,7 @@ function RegistrationForm() {
               <input
                 placeholder="Enter your userid"
                 onChange={(e) => {
+                  setErrorMessage("");
                   setUserIdErrorMessage("");
                   setUserId(e.target.value);
                 }}
