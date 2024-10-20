@@ -187,6 +187,42 @@ test("Login negative flow", async ({ page }) => {
   await page.getByText("userid is mandatory").click();
   await page.getByText("password is a mandatory field").click();
 });
+test("Multiple failed login attempts leads to locked user", async({page})=>{
+  await page.goto("http://localhost:3000/");
+  const randomFirstName = generateRandomString(6);
+  const randomLastName = generateRandomString(6);
+  const randomUserId = `${randomFirstName.toLowerCase()}${Math.floor(
+    Math.random() * 1000
+  )}@example.com`;
+  const randomPassword = `Password@${Math.floor(Math.random() * 1000)}`;
+  await page.getByRole("heading", { name: "Sports Day Event" }).click();
+  await page.getByRole("heading", { name: "Registration Form" }).click();
+  await page.getByPlaceholder("Enter your first name").click();
+  await page.getByPlaceholder("Enter your first name").press("CapsLock");
+  await page.getByPlaceholder("Enter your first name").fill(randomFirstName);
+  await page.getByPlaceholder("Enter your first name").press("Tab");
+  await page.getByPlaceholder("Enter your last name").press("CapsLock");
+  await page.getByPlaceholder("Enter your last name").fill(randomLastName);
+  await page.getByPlaceholder("Enter your userid").click();
+  await page.getByPlaceholder("Enter your userid").fill(randomUserId);
+  await page.getByPlaceholder("Enter your password").click();
+  await page.getByPlaceholder("Enter your password").press("CapsLock");
+  await page.getByPlaceholder("Enter your password").fill(randomPassword);
+  await page.getByRole("button", { name: "Register" }).click();
+  await page.waitForTimeout(1500);
+  await page.getByPlaceholder("Enter your userid").click();
+  await page.getByPlaceholder("Enter your userid").fill(randomUserId);
+  await page.getByPlaceholder("Enter your password").click();
+  await page.getByPlaceholder("Enter your password").press("CapsLock");
+  await page.getByPlaceholder("Enter your password").fill(randomPassword+'1');
+  await page.getByTestId("login-button").click();
+  await page.getByTestId("login-button").click();
+  await page.getByTestId("login-button").click();
+  await page.getByTestId("login-button").click();
+  await page.getByTestId("login-button").click();
+  await page.getByTestId("login-button").click();
+  await page.getByText("Your account is locked due to").click();
+})
 test("direct access to events without logging in should fallback to login", async ({
   page,
 }) => {
@@ -283,6 +319,11 @@ test("Selected events persists after a reload", async ({ page }) => {
   await page.goto("http://localhost:3000/events");
   await page.getByText("SButterfly 100MSwimming1:30 PM - 2:30 PMRemove").click();
 });
+test('Icon change on toggling password visibility', async({page})=>{
+  await page.goto("http://localhost:3000/login");
+  await page.getByTestId("VisibilityOffIcon").locator("path").click();
+  await page.getByTestId("VisibilityIcon").click();
+})
 test("Check if conflicting events doesnt get added", async ({ page }) => {
   await page.goto("http://localhost:3000/");
   const randomFirstName = generateRandomString(6);

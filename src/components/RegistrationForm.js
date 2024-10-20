@@ -1,7 +1,7 @@
 import { Snackbar } from "@mui/material";
 import { useEffect, useRef, useState } from "react";
 import { useNavigate } from "react-router-dom";
-import { FIRST_NAME_MANDATORY, LAST_NAME_MANDATORY, PASSWORD_LENGTH_ERROR_MESSAGE, PASSWORD_LOWER_LETTER_ERROR_MESSAGE, PASSWORD_MANDATORY, PASSWORD_NUMBER_ERROR_MESSAGE, PASSWORD_SPECIAL_CHARACTER_ERROR_MESSAGE, PASSWORD_UPPER_LETTER_ERROR_MESSAGE, REGISTRATION_POST, SUCCESSFUL_REGISTRATION, USER_ID_LENGTH_ERROR_MESSAGE, USER_ID_LENGTH_ERROR_MESSAGES, USER_ID_MANDATORY } from "../utils/constants";
+import { FIRST_NAME_MANDATORY, LAST_NAME_MANDATORY, PASSWORD_LENGTH_ERROR_MESSAGE, PASSWORD_LOWER_LETTER_ERROR_MESSAGE, PASSWORD_MANDATORY, PASSWORD_NUMBER_ERROR_MESSAGE, PASSWORD_SPECIAL_CHARACTER_ERROR_MESSAGE, PASSWORD_UPPER_LETTER_ERROR_MESSAGE, REGISTRATION_POST, SUCCESSFUL_REGISTRATION, USER_ID_LENGTH_ERROR_MESSAGE, USER_ID_MANDATORY } from "../utils/constants";
 
 function RegistrationForm() {
   const [firstName, setFirstName] = useState("");
@@ -99,15 +99,13 @@ function RegistrationForm() {
   };
   return (
     <>
-      <div className="flex flex-col justify-center items-center  min-h-screen -mt-20">
-        <div className="flex justify-center ">
+      <div className="flex flex-col justify-center items-center min-h-screen -mt-20 bg-gray-100 dark:bg-gray-900">
+        <div className="flex justify-center">
           <form
             onSubmit={(e) => e.preventDefault()}
-            className="w-full bg-white px-14 sm:px-28 py-10 shadow-md rounded-md"
+            className="w-full bg-white dark:bg-gray-800 px-14 sm:px-28 py-10 shadow-md rounded-md text-gray-900 dark:text-white"
           >
-            <h1 className="text-2xl font-semibold mb-4 text-gray-700">
-              Registration Form
-            </h1>
+            <h1 className="text-2xl font-semibold mb-4">Registration Form</h1>
             <div className="mb-4">
               <input
                 placeholder="Enter your first name"
@@ -118,11 +116,13 @@ function RegistrationForm() {
                 }}
                 value={firstName}
                 className={`w-full p-2 border ${
-                  firstNameErrorMessage ? "border-red-500" : "border-gray-300"
+                  firstNameErrorMessage
+                    ? "border-red-500"
+                    : "border-gray-300 dark:border-gray-600"
                 } rounded focus:outline-none focus:ring-2 focus:ring-blue-500`}
-              ></input>
+              />
               {firstNameErrorMessage.length > 0 && (
-                <div className="text-red-500 text-sm  mt-2 text-center flex-wrap">
+                <div className="text-red-500 text-sm mt-2 text-center flex-wrap">
                   {firstNameErrorMessage}
                 </div>
               )}
@@ -136,11 +136,13 @@ function RegistrationForm() {
                 }}
                 value={lastName}
                 className={`w-full p-2 border ${
-                  lastNameErrorMessage ? "border-red-500" : "border-gray-300"
+                  lastNameErrorMessage
+                    ? "border-red-500"
+                    : "border-gray-300 dark:border-gray-600"
                 } rounded focus:outline-none focus:ring-2 focus:ring-blue-500`}
-              ></input>
+              />
               {lastNameErrorMessage.length > 0 && (
-                <div className="text-red-500 text-sm  mt-2 text-center flex-wrap">
+                <div className="text-red-500 text-sm mt-2 text-center flex-wrap">
                   {lastNameErrorMessage}
                 </div>
               )}
@@ -156,11 +158,13 @@ function RegistrationForm() {
                 onBlur={handleBlurUserId}
                 value={userId}
                 className={`w-full p-2 border ${
-                  userIdErrorMessage ? "border-red-500" : "border-gray-300"
+                  userIdErrorMessage
+                    ? "border-red-500"
+                    : "border-gray-300 dark:border-gray-600"
                 } rounded focus:outline-none focus:ring-2 focus:ring-blue-500`}
-              ></input>
+              />
               {userIdErrorMessage.length > 0 && (
-                <div className="text-red-500 text-sm  mt-2 text-center flex-wrap">
+                <div className="text-red-500 text-sm mt-2 text-center flex-wrap">
                   {userIdErrorMessage}
                 </div>
               )}
@@ -172,11 +176,13 @@ function RegistrationForm() {
                 onChange={handleChangePassword}
                 onBlur={handleBlurPassword}
                 className={`w-full p-2 border ${
-                  passwordErrorMessage ? "border-red-500" : "border-gray-300"
+                  passwordErrorMessage
+                    ? "border-red-500"
+                    : "border-gray-300 dark:border-gray-600"
                 } rounded focus:outline-none focus:ring-2 focus:ring-blue-500`}
-              ></input>
+              />
               {passwordErrorMessage.length > 0 && (
-                <div className="text-red-500 text-sm  mt-2 text-center flex-wrap">
+                <div className="text-red-500 text-sm mt-2 text-center flex-wrap">
                   {passwordErrorMessage}
                 </div>
               )}
@@ -184,45 +190,49 @@ function RegistrationForm() {
             <button
               type="submit"
               onClick={handleSubmit}
-              className="w-full mb-4 bg-blue-500 text-white font-semibold py-2 rounded hover:bg-blue-600 transition duration-200"
+              className="w-full mb-4 bg-blue-500 dark:bg-blue-600 text-white font-semibold py-2 rounded hover:bg-blue-600 dark:hover:bg-blue-700 transition duration-200"
             >
               Register
             </button>
             <div>
-              Already a user ?{" "}
-              <a href="/login" className="text-blue-500 hover:text-blue-700">
+              Already a user?{" "}
+              <a
+                href="/login"
+                className="text-blue-500 dark:text-blue-400 hover:text-blue-700 dark:hover:text-blue-300"
+              >
                 Click here
               </a>
             </div>
             {errorMessage.length > 0 && (
-              <div className="text-red-500 text-sm  mt-4 text-center">
+              <div className="text-red-500 text-sm mt-4 text-center">
                 {errorMessage}
               </div>
             )}
           </form>
         </div>
+        <Snackbar
+          anchorOrigin={{ vertical: "top", horizontal: "right" }}
+          open={successToast}
+          autoHideDuration={1500}
+          onClose={handleClose}
+          message={SUCCESSFUL_REGISTRATION}
+          sx={{
+            "& .MuiSnackbarContent-root": {
+              bgcolor: "green",
+              color: "white",
+            },
+          }}
+          action={
+            <>
+              <span className="text-white cursor-pointer" onClick={handleClose}>
+                X
+              </span>
+            </>
+          }
+        />
       </div>
-      <Snackbar
-        anchorOrigin={{ vertical: "top", horizontal: "right" }}
-        open={successToast}
-        autoHideDuration={1500}
-        onClose={handleClose}
-        message={SUCCESSFUL_REGISTRATION}
-        sx={{
-          "& .MuiSnackbarContent-root": {
-            bgcolor: "green",
-            color: "white",
-          },
-        }}
-        action={
-          <>
-            <span className="text-white cursor-pointer" onClick={handleClose}>
-              X
-            </span>
-          </>
-        }
-      />
     </>
   );
+
 }
 export default RegistrationForm;

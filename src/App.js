@@ -10,7 +10,7 @@ import RegistrationForm from "./components/RegistrationForm";
 import LoginForm from "./components/LoginForm";
 import Events from "./components/Events";
 import ProtectedRoute from "./Auth/ProtectedRoute";
-import { useContext, useState } from "react";
+import { useContext } from "react";
 import { AuthContext } from "./Auth/AuthContext";
 import DarkModeIcon from "@mui/icons-material/DarkMode";
 import LightModeIcon from '@mui/icons-material/LightMode';
