@@ -71,42 +71,60 @@ function LoginForm(){
                Login Form
              </h1>
              <div className="mb-4">
+               <label
+                 htmlFor="userId"
+                 className="block text-sm font-medium text-gray-700 dark:text-gray-300"
+               >
+                 User ID
+                 <span className="text-red-500">*</span>
+               </label>
                <input
-                 placeholder="Enter your userid"
+                 id="userId"
+                 placeholder="Enter your useriD"
                  onChange={(e) => {
                    setUserIdErrorMessage("");
                    setUserId(e.target.value);
                  }}
                  value={userId}
                  ref={userIdRef}
-                 className={`w-full p-2 border ${
+                 className={`w-full p-2 border text-gray-900 ${
                    userIdErrorMessage
                      ? "border-red-500"
                      : "border-gray-300 dark:border-gray-600"
                  } rounded focus:outline-none focus:ring-2 focus:ring-blue-500`}
                />
                {userIdErrorMessage.length > 0 && (
-                 <div className="text-red-500 text-sm mt-2 text-center flex-wrap">
+                 <div className="text-red-500 text-sm mt-2 w-full text-left">
                    {userIdErrorMessage}
                  </div>
                )}
              </div>
              <div className="mb-4">
+               <label
+                 htmlFor="password"
+                 className="block text-sm font-medium text-gray-700 dark:text-gray-300"
+               >
+                 Password
+                 <span className="text-red-500">*</span>
+               </label>
                <div className="flex relative">
                  <input
-                   type={viewPassword?"text":"password"}
+                   type={viewPassword ? "text" : "password"}
                    placeholder="Enter your password"
                    onChange={(e) => {
                      setPasswordErrorMessage("");
                      setPass(e.target.value);
                    }}
-                   className={`w-full p-2 border ${
+                   className={`w-full p-2 border text-gray-900 ${
                      passwordErrorMessage
                        ? "border-red-500"
                        : "border-gray-300 dark:border-gray-600"
                    } rounded focus:outline-none focus:ring-2 focus:ring-blue-500`}
                  />
-                 <div className="absolute right-1 top-2 hover:cursor-pointer" onClick={()=>setViewPassword(prev=>!prev)}>
+                 <div
+                   className="absolute right-1 top-2 hover:cursor-pointer"
+                   onClick={() => setViewPassword((prev) => !prev)}
+                 >
                    {viewPassword ? <VisibilityIcon /> : <VisibilityOffIcon />}
                  </div>
                </div>

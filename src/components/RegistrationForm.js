@@ -107,6 +107,13 @@ function RegistrationForm() {
           >
             <h1 className="text-2xl font-semibold mb-4">Registration Form</h1>
             <div className="mb-4">
+              <label
+                htmlFor="fname"
+                className="block text-sm font-medium text-gray-700 dark:text-gray-300"
+              >
+                First Name
+                <span className="text-red-500">*</span>
+              </label>
               <input
                 placeholder="Enter your first name"
                 ref={firstNameRef}
@@ -119,7 +126,7 @@ function RegistrationForm() {
                   firstNameErrorMessage
                     ? "border-red-500"
                     : "border-gray-300 dark:border-gray-600"
-                } rounded focus:outline-none focus:ring-2 focus:ring-blue-500`}
+                } rounded text-gray-900  focus:outline-none focus:ring-2 focus:ring-blue-500`}
               />
               {firstNameErrorMessage.length > 0 && (
                 <div className="text-red-500 text-sm mt-2 text-center flex-wrap">
@@ -128,6 +135,13 @@ function RegistrationForm() {
               )}
             </div>
             <div className="mb-4">
+              <label
+                htmlFor="lname"
+                className="block text-sm font-medium text-gray-700 dark:text-gray-300"
+              >
+                Last Name
+                <span className="text-red-500">*</span>
+              </label>
               <input
                 placeholder="Enter your last name"
                 onChange={(e) => {
@@ -139,7 +153,7 @@ function RegistrationForm() {
                   lastNameErrorMessage
                     ? "border-red-500"
                     : "border-gray-300 dark:border-gray-600"
-                } rounded focus:outline-none focus:ring-2 focus:ring-blue-500`}
+                } rounded focus:outline-none text-gray-900 focus:ring-2 focus:ring-blue-500`}
               />
               {lastNameErrorMessage.length > 0 && (
                 <div className="text-red-500 text-sm mt-2 text-center flex-wrap">
@@ -148,6 +162,13 @@ function RegistrationForm() {
               )}
             </div>
             <div className="mb-4">
+              <label
+                htmlFor="userId"
+                className="block text-sm font-medium text-gray-700 dark:text-gray-300"
+              >
+                User ID
+                <span className="text-red-500">*</span>
+              </label>
               <input
                 placeholder="Enter your userid"
                 onChange={(e) => {
@@ -161,7 +182,7 @@ function RegistrationForm() {
                   userIdErrorMessage
                     ? "border-red-500"
                     : "border-gray-300 dark:border-gray-600"
-                } rounded focus:outline-none focus:ring-2 focus:ring-blue-500`}
+                } rounded focus:outline-none text-gray-900 focus:ring-2 focus:ring-blue-500`}
               />
               {userIdErrorMessage.length > 0 && (
                 <div className="text-red-500 text-sm mt-2 text-center flex-wrap">
@@ -170,6 +191,13 @@ function RegistrationForm() {
               )}
             </div>
             <div className="mb-4">
+              <label
+                htmlFor="password"
+                className="block text-sm font-medium text-gray-700 dark:text-gray-300"
+              >
+                Password
+                <span className="text-red-500">*</span>
+              </label>
               <input
                 type="password"
                 placeholder="Enter your password"
@@ -179,7 +207,7 @@ function RegistrationForm() {
                   passwordErrorMessage
                     ? "border-red-500"
                     : "border-gray-300 dark:border-gray-600"
-                } rounded focus:outline-none focus:ring-2 focus:ring-blue-500`}
+                } rounded focus:outline-none text-gray-900 focus:ring-2 focus:ring-blue-500`}
               />
               {passwordErrorMessage.length > 0 && (
                 <div className="text-red-500 text-sm mt-2 text-center flex-wrap">
