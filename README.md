@@ -7,14 +7,16 @@
 3. React router (for routing)
 4. Tailwind CSS (styling)
 5. Material UI (custom styles)
-6. Jest (unit testing)
+6. Jest & React Testing Library (unit testing)
+7. Playwright (E2E testing)
 
 ## Security and accessibility
 1. Responsiveness across all devices (Mobile, Laptop, and Desktop)
 2. If the user tries to input a userid shorter than 7 characters ui will error handle it via onChnage. But in case 
    it somehow bypasses it backend will throw an error for which the ui will again display the error.
+3. Direct navigation to events pgae without logging in is prohibited due to protectedroute
 
-## Things to take care of 
+## Things taken care of 
 1. form resizes when error messages are shown
 2. webvitals
 3. Store all constants and strings in a utils folder
