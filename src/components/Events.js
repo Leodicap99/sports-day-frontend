@@ -98,6 +98,7 @@ function Events() {
     setEvents([...filteredArray]);
   }
   const handleFilterEvents = (searchTerm) => {
+    searchTerm = searchTerm.trim();
     const filteredEvents = data.filter((event) =>
       event.event_name.toLowerCase().includes(searchTerm.toLowerCase())
     );

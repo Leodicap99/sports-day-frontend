@@ -7,7 +7,9 @@ function AuthProvider({ children }) {
       ? false
       : Boolean(sessionStorage.getItem("isLoggedIn"))
   );
-  const [darkMode, setDarkMode] = useState(false);
+  const [darkMode, setDarkMode] = useState(
+    localStorage.getItem("darkMode") === "true"
+  );
   const setLogin = (info) => {
     if (!isLoggedIn) {
       setIsLoggedIn(true);
@@ -18,7 +20,9 @@ function AuthProvider({ children }) {
     }
   };
   const toggleMode = () => {
-    setDarkMode((prev) => !prev);
+    setDarkMode((prev) => {
+      localStorage.setItem("darkMode", !prev); 
+      return !prev});
     document.documentElement.classList.toggle("dark");
   };
   return (
